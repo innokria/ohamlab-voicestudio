@@ -106,3 +106,16 @@ not advertise a `train` CLI command that would silently fail.
 ## Hugging Face Docker Space
 
 Copy `README_SPACE.md` to `README.md` in the Space repository, and include `Dockerfile`, `pyproject.toml`, and `src/`. Set Space SDK to Docker, port 7860. See `README_SPACE.md` for deployment notes.
+
+## Experimental Kaggle training backend
+
+The `ohamlab_voicestudio.training.backend` modules incorporate MIT-licensed
+training code adapted from the uploaded fine-tuning project. The original MIT
+copyright notice and third-party notices are retained under `LICENSES/`.
+This code is maintained inside OhamLab and **does not install the upstream
+fine-tuning Git repository**. It still requires `hima_tts` inference source
+distributed with the selected base model. Check model license separately.
+
+Run the notebook `notebooks/OhamLab_Kaggle_Trainer.ipynb` on a Kaggle GPU.
+**Not GPU-tested** against `rahul7star/tts-nano-o-hi` yet. The example dataset
+is extremely small and intended only for a pipeline smoke test.
