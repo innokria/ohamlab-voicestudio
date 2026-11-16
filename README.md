@@ -4,6 +4,9 @@ Modular Python SDK for Hindi speech generation, voice cloning, transcription and
 
 ## Install
 
+```pypy
+pip install ohamlab-voicestudio
+```
 ```bash
 pip install ohamlab-voicestudio
 pip install "ohamlab-voicestudio[tts]"
