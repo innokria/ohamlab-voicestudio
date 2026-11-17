@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ohamlab-voicestudio"
-version = "0.1.0b2"
+version = "0.1.0b3"
 description = "Modular OhamLab voice SDK: Hindi TTS, voice cloning, ASR, voice chat and training utilities"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,3 +26,6 @@ ohamlab-voice = "ohamlab_voicestudio.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools]
+license-files = ["LICENSE", "LICENSES/*.txt"]

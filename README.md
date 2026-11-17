@@ -119,3 +119,35 @@ distributed with the selected base model. Check model license separately.
 Run the notebook `notebooks/OhamLab_Kaggle_Trainer.ipynb` on a Kaggle GPU.
 **Not GPU-tested** against `rahul7star/tts-nano-o-hi` yet. The example dataset
 is extremely small and intended only for a pipeline smoke test.
+
+
+## Kaggle Hindi TTS fine-tuning (GPU)
+
+Use [`notebooks/OhamLab_Kaggle_Trainer.ipynb`](notebooks/OhamLab_Kaggle_Trainer.ipynb).
+
+1. Create a Kaggle notebook and import the linked `.ipynb` file.
+2. Enable **GPU (Tesla T4)** and **Internet** in Kaggle settings.
+3. Adjust the **Training steps** slider (start with 5 to test, then try 100).
+4. Select **Run All**. The notebook installs `ohamlab-voicestudio[train]` from this repository's `main` branch, fetches the base checkpoint `rahul7star/tts-nano-o-hi` and training data `rahul7star/hindi_dataset_small_example` from Hugging Face, prepares the clips, trains an adapter, and attempts export.
+5. Download the exported model ZIP from Kaggle outputs if export succeeds. Optional Hugging Face publishing is disabled by default.
+
+**Kaggle T4 fix:** the trainer defaults to `--workers 0` to avoid DataLoader worker hangs observed during the 5-step smoke test. The notebook explicitly passes this flag and starts with `BATCH_FRAMES = 1200`; reduce it to `400` for a conservative first test. For CLI training use:
+
+```bash
+python -m ohamlab_voicestudio.training.backend.train \
+  --base /path/to/base --work /path/to/work \
+  --steps 100 --batch_frames 400 --workers 0 \
+  --save_every 50 --valid_every 50
+```
+
+**Limitations:** the example dataset yielded only two training clips and zero validation clips. This confirms a training smoke test but does not demonstrate voice quality. A displayed validation loss of 0.0000 with no validation clips is not a quality metric. GPU export and synthesis should be verified separately before declaring end-to-end support. Respect the base-model and dataset licenses and obtain consent for voice cloning.
+
+## PyPI installation
+
+```bash
+python -m pip install --upgrade ohamlab-voicestudio
+python -m pip install 'ohamlab-voicestudio[train]'
+python -m pip install 'ohamlab-voicestudio[studio]'
+```
+
+The PyPI release is not published automatically by these source files. Maintainers can follow [RELEASING.md](RELEASING.md).

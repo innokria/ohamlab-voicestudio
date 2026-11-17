@@ -91,7 +91,7 @@ def main():
     ap.add_argument("--warmup", type=int, default=200); ap.add_argument("--wst_warmup", type=int, default=300)
     ap.add_argument("--batch_frames", type=int, default=3500, help="frames per batch (12.5 per second of audio); lower it if you run out of memory")
     ap.add_argument("--save_every", type=int, default=500); ap.add_argument("--valid_every", type=int, default=250)
-    ap.add_argument("--workers", type=int, default=2); ap.add_argument("--seed", type=int, default=31)
+    ap.add_argument("--workers", type=int, default=0); ap.add_argument("--seed", type=int, default=31)
     ap.add_argument("--resume", action="store_true", help="continue from WORK/run/state.pt (saved with every adapter), e.g. after a disconnect")
     a = ap.parse_args()
     sys.path.insert(0, os.path.abspath(a.base))
@@ -174,7 +174,7 @@ def main():
         for k, v in met.items():
             acc[k] = acc.get(k, 0.0) + float(v)
         nlog += 1; done = step + 1
-        if done % 50 == 0:
+        if done % 10 == 0 or done == a.steps:
             sp = nlog / (time.time() - t0); left = (a.steps - done) / max(sp, 1e-6)
             means = {k: round(v / nlog, 5) for k, v in acc.items()}
             log(type="train", step=done, **means, lr=lr, grad_norm=float(gn), steps_per_s=round(sp, 3),
